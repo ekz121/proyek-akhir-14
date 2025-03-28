@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - E-Learn</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        /* Header */
+        header {
+            background-color: #1a1a1a;
+            padding: 1rem 2rem;
+        }
+        .navbar-custom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar-brand {
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .navbar-nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .nav-link {
+            color: #00c4b4;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #00e0cc;
+        }
+        /* Main Content */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .form-container {
+            background-color: #2a2a2a;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .form-label {
+            color: #ffffff;
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #333333;
+            color: #ffffff;
+            border: 1px solid #555555;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        .form-control:focus {
+            outline: none;
+            background-color: #333333;
+            color: #ffffff;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            color: #ffffff;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        /* Footer */
+        footer {
+            background-color: #1a1a1a;
+            padding: 1rem 0;
+            text-align: center;
+            width: 100%;
+        }
+        footer p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #ffffff;
+        }
+        /* Responsif */
+        @media (max-width: 600px) {
+            .navbar-custom {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .navbar-nav {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            .form-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar-custom">
+            <a class="navbar-brand" href="index.html">E-Learn</a>
+            <div class="navbar-nav">
+                <a class="nav-link" href="index.html">Home</a>
+                <a class="nav-link" href="rules.html">Rules</a>
+                <a class="nav-link" href="https://techyoid.com/">Profile</a>
+                <a class="nav-link" href="login.html">Login</a>
+                <a class="nav-link active" href="register.html">Register</a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <h2>Daftar Akun</h2>
+        <div class="form-container">
+            <form id="register-form">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nama</label>
+                    <input type="text" class="form-control" id="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                <div class="mb-3">
+                    <label for="confirm-password" class="form-label">Konfirmasi Password</label>
+                    <input type="password" class="form-control" id="confirm-password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Daftar</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <p>© 2025 E-Learn. All rights reserved.</p>
+    </footer>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

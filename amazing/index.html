@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Book with Navigation</title>
+    <style>
+        * {
+            border: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --mobile-width: 325px;
+            --mobile-height: 670px;
+            --mobile-radius: 25px;
+            --separator-height: 500px;
+            --bg: #fdf3f2;
+            --mobile-bg: #fdeae6;
+            --intro-bg: #ff6f61;
+            --font-color: #807b7b;
+            --transition: transform 0.7s ease-in-out;
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg);
+        }
+
+        .info {
+            font-family: 'Quicksand', sans-serif;
+            font-style: italic;
+            font-size: 26px;
+            margin-top: 10px;
+            color: var(--font-color);
+        }
+
+        .mobile-layout {
+            width: var(--mobile-width);
+            height: var(--mobile-height);
+            margin: 30px 0;
+            border-radius: var(--mobile-radius);
+            overflow: hidden;
+            color: var(--font-color);
+            background-color: var(--mobile-bg);
+            box-shadow: 36px 36px 50px 15px #eed7d1d1;
+            position: relative;
+        }
+
+        .notification-header {
+            position: fixed;
+            top: 5px;
+            width: 100%;
+            padding: 5px 15px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            font-family: 'Open Sans', sans-serif;
+            font-weight: bold;
+            z-index: 6;
+        }
+
+        .actions {
+            position: fixed;
+            top: 37px;
+            width: 100%;
+            padding: 50px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+            z-index: 6;
+        }
+
+        .book {
+            position: relative;
+            height: var(--separator-height);
+            perspective: 1000px;
+            top: 100px;
+        }
+
+        .book-cover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform-origin: left center;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+            transition: var(--transition);
+            z-index: 2;
+            background: linear-gradient(45deg, #ff6f61, #ff8a65);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .html-logo {
+            font-size: 80px;
+            font-family: 'Quicksand', sans-serif;
+            color: white;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .html-logo::before {
+            content: '<HTML>';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            color: #ffffff;
+        }
+
+        .html-logo::after {
+            content: '</HTML>';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            color: #ffffff;
+        }
+
+        .preface {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 50px;
+            background: white;
+            z-index: 1;
+            overflow-y: auto;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .mobile-layout.open .book-cover {
+            transform: rotateY(-180deg);
+        }
+
+        .mobile-layout.open .preface .icon {
+            transform: rotateX(180deg);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+        }
+
+        .title {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 26px;
+            margin-bottom: 10px;
+        }
+
+        .author {
+            font-family: 'Open Sans', sans-serif;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        .icon {
+            transform-origin: top;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .body {
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .body p:first-child {
+            margin-bottom: 15px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background-color: #ff6f61;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .nav-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="info">
+            Mobile - Tap to Open, Navigate Pages
+        </div>
+        <div class="mobile-layout">
+            <div class="notification-header">
+                <div class="time">9:41</div>
+                <div class="necessities">
+                    <i class="fas fa-signal"></i>
+                    <i class="fas fa-wifi"></i>
+                    <i class="fas fa-battery-full"></i>
+                </div>
+            </div>
+            <div class="actions">
+                <i class="fas fa-chevron-left"></i>
+                <i class="fas fa-bookmark"></i>
+            </div>
+            <div class="book">
+                <div class="book-cover">
+                    <div class="html-logo">HTML</div>
+                </div>
+                <div class="preface">
+                    <div class="page active" data-page="1">
+                        <div class="header">
+                            <div class="title">Page 1: Introduction</div>
+                            <div class="icon">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="author">HTML Basics</div>
+                        <div class="body">
+                            <p>HTML stands for HyperText Markup Language, the foundation of web pages.</p>
+                            <p>It uses tags to structure content, like headings, paragraphs, and links.</p>
+                        </div>
+                    </div>
+                    <div class="page" data-page="2">
+                        <div class="header">
+                            <div class="title">Page 2: Elements</div>
+                            <div class="icon">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="author">Core Components</div>
+                        <div class="body">
+                            <p>Elements like &lt;div&gt;, &lt;p&gt;, and &lt;a&gt; define the structure.</p>
+                            <p>Attributes enhance elements, e.g., href for links.</p>
+                        </div>
+                    </div>
+                    <div class="page" data-page="3">
+                        <div class="header">
+                            <div class="title">Page 3: Styling</div>
+                            <div class="icon">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="author">With CSS</div>
+                        <div class="body">
+                            <p>CSS is used to style HTML, controlling colors, layouts, and more.</p>
+                            <p>Link it with &lt;style&gt; or external files.</p>
+                        </div>
+                    </div>
+                    <div class="page" data-page="4">
+                        <div class="header">
+                            <div class="title">Page 4: Interactivity</div>
+                            <div class="icon">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="author">JavaScript Magic</div>
+                        <div class="body">
+                            <p>JavaScript adds interactivity, like this page navigation.</p>
+                            <p>Events like clicks drive dynamic behavior.</p>
+                        </div>
+                    </div>
+                    <div class="navigation">
+                        <button class="nav-btn" id="prev">Prev</button>
+                        <button class="nav-btn" id="next">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const mobileLayout = document.querySelector('.mobile-layout');
+        const bookCover = document.querySelector('.book-cover');
+        const icon = document.querySelector('.preface .icon');
+        const pages = document.querySelectorAll('.page');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        let currentPage = 1;
+        const totalPages = pages.length;
+
+        function updatePage() {
+            pages.forEach(page => page.classList.remove('active'));
+            document.querySelector(`.page[data-page="${currentPage}"]`).classList.add('active');
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+        }
+
+        bookCover.addEventListener('click', () => {
+            mobileLayout.classList.toggle('open');
+        });
+
+        icon.addEventListener('click', () => {
+            mobileLayout.classList.toggle('open');
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                updatePage();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                updatePage();
+            }
+        });
+
+        updatePage(); // Initialize page state
+    </script>
+</body>
+</html>
